@@ -18,8 +18,10 @@ const questionSchema = new mongoose.Schema({
   possibleAnswers: [String]  // Optional array for fill in blank
 });
 
+// quizzes schema
 const schema = new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: "CourseModel" },
+  description: String,  // Optional field
   title: { type: String, required: true },
   available_from: { type: Date, required: true },
   available_until: { type: Date, required: true },

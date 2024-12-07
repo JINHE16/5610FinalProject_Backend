@@ -12,7 +12,7 @@ import EnrollmentRoutes from './Kanbas/Enrollments/routes.js';
 import mongoose from "mongoose";
 import QuizRoutes from "./Kanbas/Quizzes/routes.js";
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/Kanbas";
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb+srv://jinhe1248:supersecretpassword@cluster0.9poff.mongodb.net/Kanbas";
 mongoose.connect(CONNECTION_STRING);
 
 // Connection event listeners
