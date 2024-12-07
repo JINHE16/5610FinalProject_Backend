@@ -11,8 +11,9 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from './Kanbas/Assignments/routes.js';
 import EnrollmentRoutes from './Kanbas/Enrollments/routes.js';
 import QuizRoutes from "./Kanbas/Quizzes/routes.js";
-
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://localhost:27017/kanbas-cs5610-fa24";
+import model from "./Kanbas/Quizzes/model.js";
+// 修改了connectionstring
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://localhost:27017/yitiantest";
 mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(cors({
@@ -26,7 +27,8 @@ const sessionOptions = {
     secret: process.env.SESSION_SECRET || "kanbas",
     resave: false,
     saveUninitialized: false,
-};
+};export const createQuiz = async (courseId, quizData) =>
+  await model.create({ course: courseId, ...quizData });
 if (process.env.NODE_ENV !== "development") {
     sessionOptions.proxy = true;
     sessionOptions.cookie = {

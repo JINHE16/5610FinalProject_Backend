@@ -7,19 +7,13 @@ export const findAllQuizzesForCourse = async (courseId) =>
 export const findPublishedQuizzesForCourse = async (courseId) =>
   await model.find({ course: courseId, published: true });
 
-// export const createQuiz = async (courseId, quizData) =>
-//   await model.create({ course: courseId, ...quizData });
 export const createQuiz = async (courseId, quizData) => {
-  try {
-    // 创建新的 Quiz 文档
-    const createdQuiz = await model.create({ course: courseId, ...quizData });
-    return createdQuiz;
-  } catch (error) {
-    // 捕获创建过程中发生的错误
-    console.error("Error creating quiz:", error);
-    throw error; // 抛出错误以便控制器层处理
-  }
-};
+  delete quizData._id
+  return model.create({ course: courseId, ...quizData });
+}
+  // 注意：此处需要将 quizData._id 去除，否则 mongoose 会在 update 之前添加一个新的 id 字段
+  // await model.create({ course: courseId, ...quizData });
+
 
 export const updateQuiz = async (courseId, quizId, quizData) =>
   await model.findOneAndUpdate({ _id: quizId, course: courseId }, quizData, { new: true });
