@@ -107,11 +107,21 @@ const updateQuestion = async (req, res) => {
     }
   };
 
+  const fetchQuizDetails = async (req, res) => {
+    try {
+      const { quizId, courseId } = req.params;
+      const quiz = await dao.getQuizDetails(quizId, courseId);
+      res.status(200).json(quiz);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
   app.get("/api/courses/:courseId/quizzes", fetchAllQuizzesForCourse);
+
   app.get("/api/courses/:courseId/quizzes/published", fetchPublishedQuizzesForCourse);
   app.post("/api/courses/:courseId/quizzes", createQuiz);
-  app.put("/api/courses/:courseId/quizzes/:quizId", updateQuiz);
+  app.put("/api/courses/:courseId/quizzes/:quizId", updateQuiz);// 参照点
   app.put("/api/quizzes/:quizId/publish", togglePublish);
   app.delete("/api/courses/:courseId/quizzes/:quizId", deleteQuiz);
 

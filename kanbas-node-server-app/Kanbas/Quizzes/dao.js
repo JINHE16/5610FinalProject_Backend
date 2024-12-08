@@ -114,3 +114,7 @@ export const deleteQuestionFromQuiz = async (quizId, questionId) => {
 export const getQuizWithQuestions = async (quizId) => {
   return await model.findById(quizId);
 };
+
+export const getQuizDetails = async (quizId) => {
+  return await model.findOne({_id: quizId, course: courseId});
+}
