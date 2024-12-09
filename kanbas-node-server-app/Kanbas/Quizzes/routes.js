@@ -117,6 +117,12 @@ const updateQuestion = async (req, res) => {
     }
   }
 
+  const fetchLatestScore = async (req, res) => {
+    const { quizId, studentId } = req.params;
+    const latestScore = await dao.findLatestScore(quizId, studentId);
+    res.status(200).json({ score: latestScore });
+  };
+
   app.get("/api/courses/:courseId/quizzes", fetchAllQuizzesForCourse);
 
   app.get("/api/courses/:courseId/quizzes/published", fetchPublishedQuizzesForCourse);
@@ -129,4 +135,5 @@ const updateQuestion = async (req, res) => {
   app.put("/api/quizzes/:quizId/questions/:questionId", updateQuestion);
   app.delete("/api/quizzes/:quizId/questions/:questionId", deleteQuestion);
   app.get("/api/quizzes/:quizId", getQuizWithQuestions);
+  app.get("/api/quizzes/:quizId/students/:studentId/score/latest", fetchLatestScore);
 }

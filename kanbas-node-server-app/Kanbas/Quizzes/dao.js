@@ -118,3 +118,22 @@ export const getQuizWithQuestions = async (quizId) => {
 export const getQuizDetails = async (quizId) => {
   return await model.findOne({_id: quizId, course: courseId});
 }
+
+export const findLatestScore = async (quizId, studentId) => {
+  const quiz = await model.findOne(
+    {
+      _id: quizId,
+      "scores.studentId": studentId
+    },
+    { "scores.$": 1 }
+  );
+  if (!quiz?.scores?.length) {
+    return null;
+  }
+  const studentScores = quiz.scores[0];
+  const latestAttempt = studentScores?.attempts?.sort((a, b) => new Date(b.attemptDate) - new Date(a.attemptDate))[0];
+  if (!latestAttempt) {
+    return null;
+  }
+  return latestAttempt.score;
+};
