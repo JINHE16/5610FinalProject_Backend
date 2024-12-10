@@ -112,7 +112,18 @@ export const deleteQuestionFromQuiz = async (quizId, questionId) => {
 
 
 export const getQuizWithQuestions = async (quizId) => {
-  return await Quiz.findById(quizId)
+  try {
+    console.log("Fetching quiz:", quizId);
+    const quiz = await model.findById(quizId);
+    console.log("Found quiz:", quiz);
+    if (!quiz) {
+      throw new Error("Quiz not found");
+    }
+    return quiz;
+  } catch (error) {
+    console.error("Error in getQuizWithQuestions:", error);
+    throw error;
+  }
 };
 
 export const getQuizDetails = async (quizId) => {
