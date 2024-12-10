@@ -21,6 +21,6 @@ const quizAttemptSchema = new mongoose.Schema({
 });
 
 // Add index to optimize querying by userId and quizId
-// quizAttemptSchema.index({ userId: 1, quizId: 1 });
+quizAttemptSchema.index({ userId: 1, quizId: 1 });
 
 export default quizAttemptSchema;

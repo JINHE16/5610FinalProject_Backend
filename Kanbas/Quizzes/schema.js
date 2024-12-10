@@ -30,6 +30,17 @@ const schema = new mongoose.Schema({
     points: {type: Number, required: true},
     questions: [questionSchema],  // Changed from Number to array of questions
     published: {type: Boolean, required: true, default: false},
+    scores: [
+      {
+        studentId: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel", required: true },
+        attempts: [
+          {
+            score: { type: Number, required: true },
+            attemptDate: { type: Date, required: true, default: Date.now },
+          },
+        ],
+      },
+    ],
     quizType: {
       type: String,
       enum: ["Graded Quiz", "Practice Quiz", "Graded Survey", "Ungraded Survey"],
