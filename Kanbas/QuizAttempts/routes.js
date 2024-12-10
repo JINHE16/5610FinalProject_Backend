@@ -153,6 +153,7 @@ router.post("/:quizId/preview", async (req, res) => {
         title: q.title,
         options: q.choices,
         correctAnswer: null, // 隐藏正确答案
+        points:q.points,
       })),
       lastAttempt: lastAttempt
         ? {
