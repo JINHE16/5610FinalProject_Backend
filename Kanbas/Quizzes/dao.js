@@ -1,4 +1,5 @@
 import model from "./model.js";
+import QuizAttemptModel from "../QuizAttempts/model.js";
 
 export const findAllQuizzesForCourse = async (courseId) => {
   console.log("Finding quizzes for course:", courseId);
@@ -131,18 +132,11 @@ export const getQuizDetails = async (quizId) => {
 }
 
 export const findLatestScore = async (quizId, studentId) => {
-  const quiz = await model.findOne(
-    {
-      _id: quizId,
-      "scores.studentId": studentId
-    },
-    { "scores.$": 1 }
+  const latestAttempt = await QuizAttemptModel.findOne(
+    { quizId, userId: studentId },
+    null,
+    { sort: { attemptDate: -1 } }
   );
-  if (!quiz?.scores?.length) {
-    return null;
-  }
-  const studentScores = quiz.scores[0];
-  const latestAttempt = studentScores?.attempts?.sort((a, b) => new Date(b.attemptDate) - new Date(a.attemptDate))[0];
   if (!latestAttempt) {
     return null;
   }

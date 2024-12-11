@@ -36,9 +36,14 @@ router.post("/:quizId/submit", async (req, res) => {
       let isCorrect = false;
       
       // 根据题目类型进行不同的判断
-      if (question.type === "FILL_IN_BLANK") {
-        // 填空题：去除首尾空格并忽略大小写进行比较
-        isCorrect = question.correctAnswer.trim().toLowerCase() === answer.trim().toLowerCase();
+      if (question.type === "FILL_BLANK" && Array.isArray(question.possibleAnswers)) {
+        // 遍历所有可能的正确答案
+        const normalizedAnswer = typeof answer === "string" ? answer.trim().toLowerCase() : answer;
+        isCorrect = question.possibleAnswers.some(
+          (possibleAnswer) =>
+            typeof possibleAnswer === "string" &&
+            possibleAnswer.trim().toLowerCase() === normalizedAnswer
+        );
       } else {
         // 其他题型保持原有的严格相等判断
         isCorrect = question.correctAnswer === answer;
